@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  push:
+    branches:    
+      - master         # Push events on master branch
+  pull_request:        # Run tests for any PRs
+
+jobs:
+  # Run tests.
+  # See also https://docs.docker.com/docker-hub/builds/automated-testing/
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Dockerfile lint
+        uses: docker://replicated/dockerfilelint:09a5034
+        with:
+          args: Dockerfile
+
+      - name: Docker build
+        run: docker build . --file Dockerfile --tag image
+
+      - name: Docker run
+        run: docker run --entrypoint puppet-lint image -v

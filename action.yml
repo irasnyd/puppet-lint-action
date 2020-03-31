@@ -1,0 +1,9 @@
+name: 'puppet-lint-action'
+author: 'Ira W. Snyder <https://github.com/irasnyd/>'
+description: 'GitHub Action for puppet-lint'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+branding:
+  icon: 'share-2'
+  color: 'orange'
