@@ -40,6 +40,51 @@ jobs:
 See [Testing with Puppet Lint](https://github.com/rodjek/puppet-lint#testing-with-puppet-lint)
 for full usage details.
 
+## Full Example
+
+```yaml
+name: Puppet Lint
+
+on: [push]
+
+jobs:
+  puppet-lint:
+
+    runs-on: ubuntu-18.04
+    
+    steps:
+
+    # Checkout the source code from the Github repository
+    - name: Checkout Source Code
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    # Determine which files changed in the commit(s) in this Pull Request
+    # https://github.com/trilom/file-changes-action
+    # https://github.com/marketplace/actions/file-changes-action
+    - name: Get Changed Files
+      id: get_file_changes
+      uses: trilom/file-changes-action@v1.2.3
+
+    # Filter out Puppet manifests (*.pp) from the added/modified files
+    # Store the Puppet manifest filenames into output named: files
+    # Store the number of Puppet manifests into output named: numfiles
+    - name: Filter Puppet Manifests
+      id: puppet_manifests
+      run: |
+        jq '.[] | select(.|endswith(".pp"))' $HOME/files_added.json $HOME/files_modified.json > $HOME/manifests.txt
+        echo "::set-output name=files::$(cat $HOME/manifests.txt | tr '\n' ' ')"
+        echo "::set-output name=numfiles::$(cat $HOME/manifests.txt | wc -l)"
+
+    # Puppet Lint on added/modified Puppet manifests
+    - name: Puppet Lint
+      uses: irasnyd/puppet-lint-action@1.0
+      with:
+        args: --no-140chars-check --no-class_inherits_from_params_class-check --no-relative_classname_inclusion-check ${{ steps.puppet_manifests.outputs.files }}
+      if: "steps.puppet_manifests.outputs.numfiles > 0"
+```
+
 ## License
 
 The Dockerfile and associated scripts and documentation in this project are
