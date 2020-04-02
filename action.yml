@@ -1,4 +1,4 @@
-name: 'puppet-lint-action'
+name: 'irasnyd/puppet-lint-action'
 author: 'Ira W. Snyder <https://github.com/irasnyd/>'
 description: 'GitHub Action for puppet-lint'
 runs:
