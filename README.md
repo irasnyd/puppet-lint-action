@@ -26,7 +26,7 @@ jobs:
   puppet-lint:
 
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -36,6 +36,31 @@ jobs:
       with:
         args: ./
 ```
+
+If you wish to use a specific version, without needing to rebuild the container
+each time, you can use the version hosted on the [Docker Hub](https://hub.docker.com/r/irasnyd/puppet-parser-validate-action).
+
+```yaml
+name: Puppet Lint
+
+on: [push]
+
+jobs:
+  puppet-lint:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: puppet-lint
+      uses: docker://irasnyd/puppet-lint-action:2.4.2-1
+      with:
+        args: ./
+```
+
+For example:
 
 See [Testing with Puppet Lint](https://github.com/rodjek/puppet-lint#testing-with-puppet-lint)
 for full usage details.
@@ -51,7 +76,7 @@ jobs:
   puppet-lint:
 
     runs-on: ubuntu-18.04
-    
+
     steps:
 
     # Checkout the source code from the Github repository
@@ -79,7 +104,7 @@ jobs:
 
     # Puppet Lint on added/modified Puppet manifests
     - name: Puppet Lint
-      uses: irasnyd/puppet-lint-action@1.0
+      uses: docker://irasnyd/puppet-lint-action:2.4.2-1
       with:
         args: --no-140chars-check --no-class_inherits_from_params_class-check --no-relative_classname_inclusion-check ${{ steps.puppet_manifests.outputs.files }}
       if: "steps.puppet_manifests.outputs.numfiles > 0"
