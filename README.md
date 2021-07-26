@@ -1,8 +1,5 @@
 # GitHub Action for Puppet Lint
 
-This Action for the [Puppet](https://puppet.com/) configuration management
-system enables you to syntax check your Puppet code.
-
 This Action for [Puppet Lint](http://puppet-lint.com/) enables arbitrary
 actions for interacting with Puppet Lint to test Puppet code against the
 recommended [Puppet language style guide](puppet.com/docs/puppet/latest/style_guide.html).
