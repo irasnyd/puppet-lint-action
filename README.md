@@ -52,7 +52,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: puppet-lint
-      uses: docker://irasnyd/puppet-lint-action:2.4.2-1
+      uses: docker://irasnyd/puppet-lint-action:2.4.2-2
       with:
         args: ./
 ```
@@ -101,7 +101,7 @@ jobs:
 
     # Puppet Lint on added/modified Puppet manifests
     - name: Puppet Lint
-      uses: docker://irasnyd/puppet-lint-action:2.4.2-1
+      uses: docker://irasnyd/puppet-lint-action:2.4.2-2
       with:
         args: --no-140chars-check --no-class_inherits_from_params_class-check --no-relative_classname_inclusion-check ${{ steps.puppet_manifests.outputs.files }}
       if: "steps.puppet_manifests.outputs.numfiles > 0"
